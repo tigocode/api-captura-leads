@@ -1,10 +1,12 @@
-const mysql = require('mysql2/promise.js');
+const pool = require('./conexao.js');
 
-const pool = createPool({
-  hot: 'localhost',
-  user: 'tiago',
-  password: '1234',
-  database: 'captura_leads_db'
-});
+const cadastrarUsuario = async (nome, email, telefone) => {
+  const conexao = await pool.getConnection();
+  const resposta =  await conexao.query('INSERT INTO leads (nome, email, telefone) VALUES (?, ?, ?)', [nome, email, telefone]);
+  conexao.release();
+  return resposta;
+}
 
-module.exports = pool;
+module.exports = {
+  cadastrarUsuario,
+}
