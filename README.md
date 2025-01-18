@@ -14,6 +14,7 @@ Ao desenvolver essa API foi possível aplicar os seguintes conhecimentos obtidos
 - Recebendo parâmetros com Node.js;
 - API REST Full;
 - MySql e Linguagem SQL;
+- Authentication;
 
 ## Instalações
 
@@ -41,6 +42,14 @@ Permite que a API possa ser acessada a partir de qualquer domínio
 
 ```bash
   npm install cors
+```
+
+# JWT WEB TOKEN
+
+Permite que a API possa gerar um token para realização da autenticação na aplicaçõa
+
+```bash
+  npm install jwtwebtoken
 ```
 
 # Nodemon
