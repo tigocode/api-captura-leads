@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-const { cadastrarUsuario } = require('./service/servives.js');
-const { GeraToToken } = require('./service/autenticacao.js');
+const { cadastrarUsuario, retornarLeads } = require('./service/servives.js');
+const { GeraToToken, validarToken } = require('./service/autenticacao.js');
 const { validarUsuario } = require('./validations/validar.js');
 const { validarDadosAutenticacao } = require('./validations/validar_autenticacao.js');
 
@@ -34,6 +34,25 @@ app.post('/login', async (req, res) => {
   const token = GeraToToken();
 
   res.status(200).send({ token: token});
+});
+app.get("/lista-leads", async (req, res) => {
+  let token = req.headers.authorization
+
+  if(typeof req.headers.authorization !== 'undefined') {
+    token = token.split(' ')[1];
+  } else {
+    token = -1;
+  }
+  const tokenValido = validarToken(token);
+
+  if(!tokenValido.status) {
+    res.status(tokenValido.codigo).send();
+    return;
+  }
+
+  const listaLeads =  await retornarLeads();
+  
+  res.status(tokenValido.codigo).send({ listaLeads });
 });
 app.listen(3000, () => {
   let data = new Date();

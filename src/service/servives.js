@@ -7,6 +7,15 @@ const cadastrarUsuario = async (nome, email, telefone) => {
   return resposta;
 }
 
+const retornarLeads = async () => {
+  const conexao = await pool.getConnection();
+  const resposta = await conexao.query('SELECT * FROM leads');
+  const leads = resposta[0];
+  conexao.release();
+  return leads;
+}
+
 module.exports = {
   cadastrarUsuario,
+  retornarLeads
 }

@@ -7,7 +7,27 @@ const GeraToToken = () => {
 
   return token;
 }
+const validarToken = (token) => {
+  let status;
+  let codigo;
+  
+  jwt.verify(token, JWT_SECRET, function(erro, dadosToken) {
+    if(erro == null && dadosToken.usuarioId == 1) {
+      status = true;
+      codigo = 200;
+    } else {
+      status = false;
+      codigo = 401;
+    }
+  });
+
+  return {
+    status: status,
+    codigo: codigo,
+  }
+}
 
 module.exports = {
-  GeraToToken
+  GeraToToken,
+  validarToken
 }
